@@ -1,14 +1,16 @@
-package me.study.studyjpashop.domain;
+package me.study.studyjpashop.domain.item;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.study.studyjpashop.domain.Category;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "dtype")
 @Getter @Setter
 public abstract class Item {
     @Id
@@ -19,4 +21,7 @@ public abstract class Item {
     private String name;
     private int price;
     private int stockQuantity;
+
+    @ManyToMany(mappedBy = "items")
+    private List<Category> categories = new ArrayList<>();
 }
