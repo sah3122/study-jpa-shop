@@ -1,5 +1,6 @@
 package me.study.studyjpashop.repository;
 
+import lombok.RequiredArgsConstructor;
 import me.study.studyjpashop.domain.Member;
 import org.springframework.stereotype.Repository;
 
@@ -8,10 +9,13 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
+@RequiredArgsConstructor
 public class MemberRepository {
 
-    @PersistenceContext
-    private EntityManager em;
+//    @PersistenceContext
+//    private EntityManager em;
+    // persistencecontext annotation으로 injection해야하지만 springboot 에선 autowired로 가능
+    private final EntityManager em;
 
     public void save(Member member) {
         em.persist(member);
