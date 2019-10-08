@@ -1,6 +1,8 @@
 package me.study.studyjpashop.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import me.study.studyjpashop.domain.item.Item;
 
@@ -8,6 +10,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // 생성 메서드를 제외한 생성자로 생성을 막기 위해
 public class OrderItem {
 
     @Id @GeneratedValue
