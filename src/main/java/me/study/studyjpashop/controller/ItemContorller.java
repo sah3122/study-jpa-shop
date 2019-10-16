@@ -2,11 +2,15 @@ package me.study.studyjpashop.controller;
 
 import lombok.RequiredArgsConstructor;
 import me.study.studyjpashop.domain.item.Book;
+import me.study.studyjpashop.domain.item.Item;
 import me.study.studyjpashop.service.ItemService;
+import org.dom4j.rule.Mode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -24,7 +28,7 @@ public class ItemContorller {
     public String create(BookForm form) {
         Book book = new Book();
         book.setName(form.getName());
-        book.setPrice(form.getPricate());
+        book.setPrice(form.getPrice());
         book.setStockQuantity(form.getStockQuantity());
         book.setAuthor(form.getAuthor());
         book.setIsbn(form.getIsbn());
@@ -32,5 +36,13 @@ public class ItemContorller {
         itemService.saveItem(book);
         return "redirect:/";
     }
+
+    @GetMapping("/items")
+    public String list(Model model) {
+        List<Item> items = itemService.findItems();
+        model.addAttribute("items", items);
+        return "items/itemList";
+    }
+
 
 }
