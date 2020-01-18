@@ -1,0 +1,24 @@
+POST http://localhost:8080/api/v1/members
+Content-Type: application/json
+
+{
+   "name" : "dongchul"
+}
+
+###
+
+POST http://localhost:8080/api/v2/members
+Content-Type: application/json
+
+{
+  "name" : "dongchul"
+}
+
+###
+
+PUT http://localhost:8080/api/v2/members/1
+Content-Type: application/json
+
+{
+  "name" : "dongchul2"
+}

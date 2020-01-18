@@ -51,4 +51,9 @@ public class MemberService {
         return memberRepository.findOne(memberId);
     }
 
+    @Transactional // command와 query를 철저히 분리한다.
+    public void update(Long id, String name) {
+        Member member = memberRepository.findOne(id);
+        member.setName(name);
+    }
 }
