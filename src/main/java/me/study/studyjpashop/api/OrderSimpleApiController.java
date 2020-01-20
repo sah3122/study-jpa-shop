@@ -1,13 +1,18 @@
 package me.study.studyjpashop.api;
 
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import me.study.studyjpashop.domain.Address;
 import me.study.studyjpashop.domain.Order;
+import me.study.studyjpashop.domain.OrderStatus;
 import me.study.studyjpashop.repository.OrderRepository;
 import me.study.studyjpashop.repository.OrderSearch;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * XToOne (ManyToOne, OneToOne)
@@ -29,6 +34,33 @@ public class OrderSimpleApiController {
             order.getDelivery().getAddress(); // Lazy 강제 초기화
         }
         return all;
+    }
 
+    @GetMapping("/api/v2/simple-orders")
+    public List<SimpleOrderDto> ordersV2() {
+        // ORDER 2개
+        // N + 1 -> 1 + 회원 N + 배송 + N
+        // N + 1 문제 발생, EAGER로 해도 동일하게 발생함. Fetch Join 필요
+        List<Order> all = orderRepository.findAll(new OrderSearch());
+
+        List<SimpleOrderDto> result = all.stream().map(o -> new SimpleOrderDto(o)).collect(Collectors.toList());
+        return result;
+    }
+
+    @Data
+    static class SimpleOrderDto {
+        private Long orderId;
+        private String name;
+        private LocalDateTime orderDate;
+        private OrderStatus orderStatus;
+        private Address address;
+
+        public SimpleOrderDto(Order order) {
+            orderId = order.getId();
+            name = order.getMember().getName();
+            orderDate = order.getOrderDate();
+            orderStatus = order.getStatus();
+            orderDate = order.getOrderDate();
+        }
     }
 }
