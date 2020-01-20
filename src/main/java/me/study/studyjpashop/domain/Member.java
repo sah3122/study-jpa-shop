@@ -1,5 +1,6 @@
 package me.study.studyjpashop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,5 +26,6 @@ public class Member {
     private Address address;
 
     @OneToMany(mappedBy = "member") // read only로 설정
+    @JsonIgnore
     private List<Order> orders = new ArrayList<>();
 }
