@@ -69,4 +69,13 @@ public class OrderRepository {
 //        .setMaxResults(1000)
 //        .getResultList();
     }
+    
+    //fetch join은 쿼리에서 데이터를 다 가져오기때문에 lazy loading 과 같은 이슈가 발생하지 않는다.
+    public List<Order> findAllWithMemberDelivery() {
+        return em.createQuery(
+                "select o from Order o" +
+                        " join fetch o.member m" +
+                        " join fetch o.delivery d", Order.class
+        ).getResultList();
+    }
 }
