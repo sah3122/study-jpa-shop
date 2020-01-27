@@ -7,6 +7,8 @@ import me.study.studyjpashop.domain.Order;
 import me.study.studyjpashop.domain.OrderStatus;
 import me.study.studyjpashop.repository.OrderRepository;
 import me.study.studyjpashop.repository.OrderSearch;
+import me.study.studyjpashop.repository.order.simplequery.OrderSimpleQueryDto;
+import me.study.studyjpashop.repository.order.simplequery.OrderSimpleQueryRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,6 +27,8 @@ import java.util.stream.Collectors;
 public class OrderSimpleApiController {
 
     private final OrderRepository orderRepository;
+
+    private final OrderSimpleQueryRepository orderSimpleQueryRepository;
 
     @GetMapping("/api/v1/simple-orders")
     public List<Order> ordersV1() {
@@ -53,6 +57,13 @@ public class OrderSimpleApiController {
         List<SimpleOrderDto> result = orders.stream().map(o -> new SimpleOrderDto(o)).collect(Collectors.toList());
         return result;
     }
+    @GetMapping("/api/v4/simple-orders")
+    public List<OrderSimpleQueryDto> ordersV4() {
+        List<OrderSimpleQueryDto> result = orderSimpleQueryRepository.findOrderDtos();
+        return result;
+    }
+
+
     @Data
     static class SimpleOrderDto {
         private Long orderId;

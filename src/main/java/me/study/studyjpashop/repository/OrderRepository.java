@@ -2,7 +2,6 @@ package me.study.studyjpashop.repository;
 
 import lombok.RequiredArgsConstructor;
 import me.study.studyjpashop.domain.Order;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -78,4 +77,6 @@ public class OrderRepository {
                         " join fetch o.delivery d", Order.class
         ).getResultList();
     }
+
+
 }
