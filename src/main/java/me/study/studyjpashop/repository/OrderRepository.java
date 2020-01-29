@@ -78,5 +78,15 @@ public class OrderRepository {
         ).getResultList();
     }
 
-
+    // join 으로 인해 중복된 데이터가 발생하기 때문에 distinct 를 활용해서 중복을 제거 해준다.
+    // DataBase에서는 중복 제거가 되지 않으나 JPA가 Collection을 만들때 id값을 비교하여 제거함.
+    public List<Order> findAllWitItem() {
+        return em.createQuery(
+                "select distinct o from Order o" +
+                " join fetch o.member m" +
+                " join fetch o.delivery d" +
+                " join fetch  o.orderItems oi" +
+                " join  fetch oi.item i", Order.class)
+                .getResultList();
+    }
 }
