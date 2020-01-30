@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -24,6 +25,7 @@ public class Order {
     @JoinColumn(name = "member_id")
     private Member member; //hibernate 에서 Lazy로 된 객체들은 Proxy객체를 넣어둔다. Proxy객체는 Json 직렬화를 할 수 없다.
     //cascade를 사용할때는 반드시 다른곳에서 참조 하지 않을때만 사용해야 한다.
+@BatchSize(size = 100) // inquery로 데이터를 가져온다.
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL) // cascade는 persist를 전파 한다. 따라서 order를 저장하면 변경된 orderitem이 저장된다.
     private List<OrderItem> orderItems = new ArrayList<>();
 
