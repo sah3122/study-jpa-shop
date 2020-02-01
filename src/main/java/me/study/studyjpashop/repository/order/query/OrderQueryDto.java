@@ -1,6 +1,7 @@
 package me.study.studyjpashop.repository.order.query;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import me.study.studyjpashop.domain.Address;
 import me.study.studyjpashop.domain.OrderStatus;
 
@@ -8,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
+@EqualsAndHashCode(of = "orderId")
 public class OrderQueryDto {
 
     private Long orderId;
@@ -24,5 +26,13 @@ public class OrderQueryDto {
         this.orderStatus = orderStatus;
         this.address = address;
         this.orderItems = orderItems;
+    }
+
+    public OrderQueryDto(Long orderId, String name, LocalDateTime orderDate, OrderStatus orderStatus, Address address) {
+        this.orderId = orderId;
+        this.name = name;
+        this.orderDate = orderDate;
+        this.orderStatus = orderStatus;
+        this.address = address;
     }
 }

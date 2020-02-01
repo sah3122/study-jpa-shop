@@ -35,7 +35,7 @@ public class OrderQueryRepository {
 
     private List<OrderQueryDto> findOrders() {
         return em.createQuery(
-                "select new me.study.studyjpashop.repository.order.query.OrderQueryDto(o.id, m.name, o.orderDate, o.status, d.address) from Order o" +
+                "select new me.study.studyjpashop.repository.order.query.OrderQueryDto(o.id, m.name, o.orderDate, o.status, d.address, o.orderItems) from Order o" +
                         " join o.member m" +
                         " join o.delivery d", OrderQueryDto.class
         ).getResultList();
@@ -64,5 +64,17 @@ public class OrderQueryRepository {
         return result.stream()
                     .map(o -> o.getOrderId())
                     .collect(Collectors.toList());
+    }
+
+    public List<OrderFlatDto> findAllByDto_flat() {
+        return em.createQuery(
+                "select new " +
+                        " me.study.studyjpashop.repository.order.query.OrderFlatDto(o.id, m.name, o.orderDate, o.status, d.address, i.name, oi.orderPrice, oi.count)" +
+                        " from Order o" +
+                        " join o.member m" +
+                        " join o.delivery d" +
+                        " join o.orderItems oi" +
+                        " join oi.item i", OrderFlatDto.class
+        ).getResultList();
     }
 }
