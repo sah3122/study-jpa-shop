@@ -56,3 +56,7 @@ JPA 의 distinct는 SQL에 distinct를 추가하고 더해서 같은 엔티티�
     * ToOne 관계는 조인해도 데이터 ROW 수가 증가하지 않는다.
     * ToMany(1:N) 관계는 조인하면 Row수가 증가한다.
 * Row 수가 증가하지 않는 ToOne관계는 조인으로 최적화 하기 쉬우므로 한번에 조회하고, ToMany관계는 최적화 하기 어려우므로 FINDORDERITEMS 같은 별도의 베서드로 조회한다.
+### JPA에서 DTO 직접 조회 - 컬렉션 조회 최적화
+* Query : 루트 1번, 컬렉션 1번
+* ToOne 관계들을 먼저 조회하고, 여기서 얻은 식별자 orderId로 ToMany관계인 OrderItem을 한꺼번에 조회 
+* MAP을 사용해서 매칭 성능 향상(O(1))
