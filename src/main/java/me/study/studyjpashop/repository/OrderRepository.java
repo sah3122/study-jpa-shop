@@ -1,7 +1,13 @@
 package me.study.studyjpashop.repository;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import me.study.studyjpashop.domain.Order;
+import me.study.studyjpashop.domain.OrderStatus;
+import me.study.studyjpashop.domain.QMember;
+import me.study.studyjpashop.domain.QOrder;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -22,7 +28,7 @@ public class OrderRepository {
         return em.find(Order.class, id);
     }
 
-    public List<Order> findAll(OrderSearch orderSearch) {
+    public List<Order> findAllOld(OrderSearch orderSearch) {
 
         String jpql = "select o from Order o join 0.member m";
         boolean isFristCondition = true;
@@ -67,6 +73,35 @@ public class OrderRepository {
 //        .setParameter("name", orderSearch.getMemberName())
 //        .setMaxResults(1000)
 //        .getResultList();
+    }
+
+    public List<Order> findAll(OrderSearch orderSearch) {
+        QOrder order = QOrder.order;
+        QMember member = QMember.member;
+
+        JPAQueryFactory query = new JPAQueryFactory(em);
+        return query
+                .select(order)
+                .from(order)
+                .join(order.member, member)
+                .where(statusEq(orderSearch.getOrderStatus()), nameLike(orderSearch.getMemberName()))
+                .limit(1000)
+                .fetch();
+    }
+
+
+    private BooleanExpression nameLike(String membername) {
+        if (!StringUtils.hasText(membername)) {
+            return null;
+        }
+        return QMember.member.name.like(membername);
+    }
+
+    private BooleanExpression statusEq(OrderStatus statusCond) {
+        if (statusCond == null) {
+            return null;
+        }
+        return QOrder.order.status.eq(statusCond);
     }
     
     //fetch join은 쿼리에서 데이터를 다 가져오기때문에 lazy loading 과 같은 이슈가 발생하지 않는다.
