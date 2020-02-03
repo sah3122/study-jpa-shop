@@ -117,3 +117,7 @@ JPA 의 distinct는 SQL에 distinct를 추가하고 더해서 같은 엔티티�
     * OrderService 
         * OrderService : 핵심 비즈니스 로직
         * OrderQueryService : 화면이나 API에 맞춘 서비스 (주로 Readonly 트랜잭션 사용)
+### 스프링 데이터 JPA
+* 스프링 데이터 JPA는 JpaRepositoy라는 인터페이스를 제공, 기본적인 CRUD 기능이 모두 제공
+* findByName 과 같은 일반화 하기 어려운 기능도 메서드 이름으로 정확한 JPQL쿼리를 실행한다.
+* 스프링 데이터 JPA는 JPA를 사용해서 이런 기능을 제공하지만 JPA 자체를 잘 이해하는것이 중요하다.

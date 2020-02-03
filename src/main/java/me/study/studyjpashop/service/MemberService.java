@@ -1,8 +1,8 @@
 package me.study.studyjpashop.service;
 
-import lombok.RequiredArgsConstructor;
 import me.study.studyjpashop.domain.Member;
 import me.study.studyjpashop.repository.MemberRepository;
+import me.study.studyjpashop.repository.MemberRepositoryOld;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +13,6 @@ import java.util.List;
 @Transactional(readOnly = true) // 해당 옵션은 jpa 내부에서 성능을 최적화 한다. default false
 //@RequiredArgsConstructor final 로 정의한 필드만 생성자 초기화
 public class MemberService {
-
 
     private final MemberRepository memberRepository; //필드 인젝션은 test하는 경우엔 바꿀수 없다. 생성자 주입이 조금더 유연하다., final로 설정시 컴파일 시점에 확인 가능.
 
@@ -48,12 +47,12 @@ public class MemberService {
     }
 
     public Member findOne(Long memberId) {
-        return memberRepository.findOne(memberId);
+        return memberRepository.findById(memberId).get();
     }
 
     @Transactional // command와 query를 철저히 분리한다.
     public void update(Long id, String name) {
-        Member member = memberRepository.findOne(id);
+        Member member = memberRepository.findById(id).get();
         member.setName(name);
     }
 }

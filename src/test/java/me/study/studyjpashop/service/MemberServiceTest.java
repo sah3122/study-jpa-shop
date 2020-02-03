@@ -1,7 +1,7 @@
 package me.study.studyjpashop.service;
 
 import me.study.studyjpashop.domain.Member;
-import me.study.studyjpashop.repository.MemberRepository;
+import me.study.studyjpashop.repository.MemberRepositoryOld;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class MemberServiceTest {
     @Autowired
     MemberService memberService;
     @Autowired
-    MemberRepository memberRepository;
+    MemberRepositoryOld memberRepository;
 
     @Test
     public void 회원가입() throws Exception {
